@@ -9,7 +9,7 @@ void	draw_pixel(t_data *data, t_point p0)
 		return ;
 	dst = data->addr + (p0.y * data->line_length
 			+ p0.x * (data->bits_per_pixel / 8));
-	*(unsigned int *) dst = get_color(p0.z);	//faut faire différement
+	//*(unsigned int *) dst = set color here 
 }
 
 static void	param_setup(t_point *start, t_point *end,

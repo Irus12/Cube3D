@@ -6,7 +6,7 @@
 /*   By: nschilli <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/21 16:22:06 by nschilli          #+#    #+#             */
-/*   Updated: 2026/10/26 15:35:15 by nschilli         ###   ########.fr       */
+/*   Updated: 2026/10/26 20:07:27 by nschilli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,31 @@
 
 # include <math.h>
 # include <stdlib.h>
+# include <string.h>
+# include <minilibx-linux/mlx.h>
 # include "libft_merged/include/libft.h"
+
+#define WIDTH	800
+#define HEIGHT	600
+
+#define KEY_ESC	65307
+#define KEY_W	119
+#define KEY_A	97
+#define KEY_S	115
+#define KEY_D	100
+
+typedef struct s_data
+{
+	void	*mlx;
+	void	*win;
+	void	*img;
+	char	*addr;
+	int		bits_per_pixel;
+	int		line_length;
+	int		endian;
+	int		x;
+	int		y;
+}	t_data;
 
 typedef struct s_point
 {
@@ -65,7 +89,6 @@ typedef struct s_map
 typedef struct s_player
 {
 	t_point position;
-
 }	t_player;
 
 #endif
