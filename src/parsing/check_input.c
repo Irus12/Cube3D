@@ -6,7 +6,7 @@
 /*   By: romeo <romeo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/28 15:50:42 by romeo             #+#    #+#             */
-/*   Updated: 2026/10/28 16:09:14 by romeo            ###   ########.fr       */
+/*   Updated: 2026/10/30 16:43:10 by romeo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,44 +16,24 @@
 #include <fcntl.h>
 #include <stdio.h>
 
-static int	check_extension(char *path)
-{
-	int	len;
-
-	len = 0;
-	while (path[len])
-		len++;
-	if (len < 5)
-		return (0);
-	if (path[len - 4] != '.' || path[len - 3] != 'c'
-		|| path[len - 2] != 'u' || path[len - 1] != 'b')
-		return (0);
-	return (1);
-}
+// static int	print_error(char *msg)
+// {
+// 	ft_putstr_fd("Error\n", 2);
+// 	ft_putstr_fd(msg, 2);
+// 	ft_putstr_fd("\n", 2);
+// 	return (1);
+// }
 
 int	check_inputs(int argc, char **argv)
 {
-	int	fd;
+	size_t	len;
 
 	if (argc != 2)
-	{
-		printf("Error\nExpected one .cub file\n");
-		return (0);
-	}
-	if (!check_extension(argv[1]))
-	{
-		printf("Error\nInvalid map extension\n");
-		return (0);
-	}
-	fd = open(argv[1], O_RDONLY);
-	if (fd < 0)
-	{
-		perror("Error opening map");
-		return (0);
-	}
-	if (close(fd) < 0)
-	{
-		perror("Error closing map");
-		return (0);
-	}
+		return (print_error("Usage: ./cub3D <map.cub>"));
+	len = ft_strlen(argv[1]);
+	if (len <= 4 || ft_strncmp(argv[1] + len - 4, ".cub", 4) != 0)
+		return (print_error("Map file must have .cub extension"));
+	if (argv[1][len - 5] == '/')
+		return (print_error("Invalid map file name"));
+	return (0);
 }
