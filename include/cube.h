@@ -6,7 +6,7 @@
 /*   By: nschilli <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/21 16:22:06 by nschilli          #+#    #+#             */
-/*   Updated: 2026/10/26 20:07:27 by nschilli         ###   ########.fr       */
+/*   Updated: 2026/11/04 13:23:15 by nschilli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,24 @@ typedef struct s_map
 
 typedef struct s_player
 {
-	t_point position;
+	t_point	position;
+	int		speed;
+	int		rot_speed;
 }	t_player;
+
+void	player_init(t_player player);
+
+
+int		key_press(int keycode, t_data *d, t_player *p);
+void	draw_line(t_data *data, t_point start, t_point end);
+void	draw_circle(t_data *data, t_point center, int radius, int color);
+
+
+int		absv(int i);
+
+
+t_point	new_point(double x, double y);
+
+int	close_window(t_data *d);
 
 #endif
