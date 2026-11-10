@@ -6,7 +6,7 @@
 /*   By: romeo <romeo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/28 17:00:13 by romeo             #+#    #+#             */
-/*   Updated: 2026/10/30 02:18:24 by romeo            ###   ########.fr       */
+/*   Updated: 2026/11/05 18:18:25 by romeo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ int	is_empty_line(char *line)
 	return (*line == '\0');
 }
 
+// Permet de stocker les textures path dans 
+// dispatch_elements puis de les skip pour parse la map
 static int	parse_elements(char **lines, t_map *map)
 {
 	int	i;
@@ -30,7 +32,7 @@ static int	parse_elements(char **lines, t_map *map)
 	{
 		if (!is_empty_line(lines[i]))
 		{
-			if (parse_element(lines[i], map))
+			if (dispatch_element(lines[i], map))
 				return (-1);
 			found++;
 		}
@@ -46,6 +48,8 @@ static int	parse_elements(char **lines, t_map *map)
 	return (i);
 }
 
+//first counting the right height for the map
+//then allocating + filling the map
 static int	copy_map(char **lines, t_map *map)
 {
 	int	i;

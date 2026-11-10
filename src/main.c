@@ -6,15 +6,11 @@
 /*   By: romeo <romeo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 16:50:09 by romeo             #+#    #+#             */
-/*   Updated: 2026/11/03 13:09:10 by romeo            ###   ########.fr       */
+/*   Updated: 2026/11/10 15:49:15 by romeo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cube.h"
-
-
-#include <fcntl.h>
-#include <stdio.h>
 
 // int	main(int argc, char **argv)
 // {
@@ -35,7 +31,7 @@
 // 	return (EXIT_SUCCESS);
 // }
 
-void	debug_print(t_game *game)
+static void	debug_print(t_game *game)
 {
 	t_map	*m;
 	int		i;
@@ -53,6 +49,8 @@ void	debug_print(t_game *game)
 	i = -1;
 	while (++i < m->height)
 		printf("[%s]\n", m->map[i]);
+	printf("player: %c (%.1f, %.1f)\n", game->player.direction,
+		game->player.position.x, game->player.position.y);
 }
 
 int	main(int argc, char **argv)
@@ -64,7 +62,9 @@ int	main(int argc, char **argv)
 	init_game(&game);
 	if (parse_map(argv[1], &game) != 0)
 		error_exit(&game, NULL);
-	debug_print(&game);///////////// Temporaire
+	if (validate_map(&game) != 0)
+		error_exit(&game, NULL);
+	debug_print(&game);
 	free_all(&game);
 	return (EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: romeo <romeo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/21 16:22:06 by nschilli          #+#    #+#             */
-/*   Updated: 2026/11/03 13:07:17 by romeo            ###   ########.fr       */
+/*   Updated: 2026/11/10 14:02:27 by romeo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,27 @@
 # include <math.h>
 # include <stdlib.h>
 # include <string.h>
+# include <fcntl.h>
+# include <unistd.h>
+# include <stdio.h>
 # include <minilibx-linux/mlx.h>
 # include "libft_merged/include/libft.h"
 
-#define WIDTH	800
-#define HEIGHT	600
+# define WIDTH		800
+# define HEIGHT		600
 
-#define KEY_ESC	65307
-#define KEY_W	119
-#define KEY_A	97
-#define KEY_S	115
-#define KEY_D	100
+# define KEY_ESC	65307
+# define KEY_W		119
+# define KEY_A		97
+# define KEY_S		115
+# define KEY_D		100
+# define KEY_LEFT	65361
+# define KEY_RIGHT	65363
+
+# define NORTH		0
+# define SOUTH		1
+# define WEST		2
+# define EAST		3
 
 typedef struct s_data
 {
@@ -60,6 +70,12 @@ structure relative to the color of the sky and ground
 // 	int	floor_b;
 // }	t_color_data;
 
+typedef struct s_color_data
+{
+	int	sky[3];
+	int	floor[3];
+}	t_color_data;
+
 /*
 on doit afficher la texture pixel par pixel et c'est toujours un version downscale qui est affiché car 
 la texture ingame s'agrandit/rétrécit comparé à la "vrai" image.
@@ -76,13 +92,6 @@ typedef struct s_texture ///a completer
 représente une map avec son array logique qui représente le monde explorable
 player en position (x ; y) (0.1 ; 1.5) -> map (0 ; 1) -> map[y][x] map[1][0]
 */
-
-typedef struct s_color_data
-{
-	int	sky[3];
-	int	floor[3];
-}	t_color_data;
-
 typedef struct s_map
 {
 	t_texture		textures[4]; ///changed
@@ -93,16 +102,19 @@ typedef struct s_map
 	int				width;
 }	t_map;
 
+// typedef struct s_player
+// {
+// 	t_point	position;
+// 	char	direction; //rajouted
+// }	t_player;
+
+//Romeo 
+
 typedef struct s_player
 {
 	t_point	position;
-	char	direction; //rajouted
+	char	direction;
 }	t_player;
-
-//Romeo 
-# include <stdlib.h>
-# include <fcntl.h>
-# include <unistd.h>
 
 typedef struct s_game
 {
@@ -110,13 +122,6 @@ typedef struct s_game
 	t_map		map;
 	t_player	player;
 }	t_game;
-
-# define NORTH	0
-# define SOUTH	1
-# define WEST	2
-# define EAST	3
-
-
 
 //Parsing
 
@@ -135,14 +140,17 @@ void	init_game(t_game *game);
 
 int		print_error(char *msg);
 void	free_tab(char **tab);
+
 int		is_empty_line(char *line);
 char	**read_file(char *path);
-int		parse_element(char *line, t_map *map);
+int		dispatch_element(char *line, t_map *map);
 int		parse_map(char *path, t_game *game);
+
+int		check_chars(t_game *game);
+int		validate_map(t_game *game);
 
 void	free_map(t_map *map);
 void	free_all(t_game *game);
 void	error_exit(t_game *game, char *msg);
-
 
 #endif
