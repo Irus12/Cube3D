@@ -6,7 +6,7 @@
 /*   By: romeo <romeo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/30 02:19:46 by romeo             #+#    #+#             */
-/*   Updated: 2026/10/30 02:21:33 by romeo            ###   ########.fr       */
+/*   Updated: 2026/11/10 13:50:32 by romeo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,17 @@
 
 static int	set_texture(t_texture *tex, char *s)
 {
-	int	fd;
+	int		fd;
+	size_t	len;
 
 	if (tex->path)
 		return (print_error("Duplicate texture"));
 	tex->path = ft_strtrim(s, " ");
 	if (!tex->path)
 		return (print_error("Malloc failed"));
+	len = ft_strlen(tex->path);
+	if (len <= 4 || ft_strncmp(tex->path + len - 4, ".xpm", 4))
+		return (print_error("Texture must be .xpm"));
 	fd = open(tex->path, O_RDONLY);
 	if (fd < 0)
 		return (print_error("Cannot open texture"));
@@ -85,7 +89,7 @@ static int	set_color(int *rgb, char *s)
 	return (0);
 }
 
-int	parse_element(char *line, t_map *map)
+int	dispatch_element(char *line, t_map *map)
 {
 	while (*line == ' ')
 		line++;
@@ -101,5 +105,7 @@ int	parse_element(char *line, t_map *map)
 		return (set_color(map->colors.floor, line + 2));
 	if (!ft_strncmp(line, "C ", 2))
 		return (set_color(map->colors.sky, line + 2));
+	if (*line == '1')
+		return (print_error("Missing element before map"));
 	return (print_error("Unknown identifier"));
 }
