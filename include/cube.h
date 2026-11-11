@@ -6,7 +6,7 @@
 /*   By: nschilli <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/21 16:22:06 by nschilli          #+#    #+#             */
-/*   Updated: 2026/11/04 13:23:15 by nschilli         ###   ########.fr       */
+/*   Updated: 2026/11/11 15:45:15 by nschilli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,44 @@
 #define KEY_A	97
 #define KEY_S	115
 #define KEY_D	100
+#define KEY_L	65361
+#define KEY_R	65363
 
+typedef struct s_point
+{
+	double	x;
+	double	y;
+}	t_point;
+
+/**
+ * @brief Handles the transmission of the keyboard inputs
+ * to the game state waiting to be updated.
+ * The values are set to 1 if the key is pressed otherwise it's 0.
+ * This struct is used so the player can use multiples keys at once.
+ */
+typedef struct s_keys
+{
+	int	key_w;
+	int	key_a;
+	int	key_s;
+	int	key_d;
+	int	key_left_arrow;
+	int	key_right_arrow;
+}	t_key;
+
+typedef struct s_player
+{
+	t_point		position;
+	t_point		direction;
+	double		angle;
+	double		speed;
+	double		rot_speed;
+}	t_player;
+
+/**
+ * @brief Struct used to store data relative
+ * to the current game simulation, the screen's render and minilibx's window
+ */
 typedef struct s_data
 {
 	void	*mlx;
@@ -37,15 +74,8 @@ typedef struct s_data
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
-	int		x;
-	int		y;
+	t_player *player;
 }	t_data;
-
-typedef struct s_point
-{
-	double	x;
-	double	y;
-}	t_point;
 
 /*
 structure relative to the color of the sky and ground
@@ -86,26 +116,26 @@ typedef struct s_map
 	int				width;
 }	t_map;
 
-typedef struct s_player
-{
-	t_point	position;
-	int		speed;
-	int		rot_speed;
-}	t_player;
+/* PLAYER */
+void	player_init(t_player *player);
+void	player_move(t_player *player, t_key keys);
+void	recalulate_dir(t_player *player);
+void	update_player(t_data *data);
 
-void	player_init(t_player player);
+/* INPUT*/
+int		key_press(int keycode, t_data *data);
 
-
-int		key_press(int keycode, t_data *d, t_player *p);
+/* RENDERING */
 void	draw_line(t_data *data, t_point start, t_point end);
 void	draw_circle(t_data *data, t_point center, int radius, int color);
+void	render_player(t_data *data);
 
 
-int		absv(int i);
+/* MATH */
+double		absv(double i);
+t_point		new_point(double x, double y);
 
-
-t_point	new_point(double x, double y);
-
+/* MINILIBX */
 int	close_window(t_data *d);
 
 #endif

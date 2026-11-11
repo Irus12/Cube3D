@@ -6,42 +6,43 @@
 /*   By: nschilli <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/04 13:22:00 by nschilli          #+#    #+#             */
-/*   Updated: 2026/11/04 13:22:09 by nschilli         ###   ########.fr       */
+/*   Updated: 2026/11/11 15:42:21 by nschilli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/cube.h"
 
-
-int	absv(int i)
-{
-	if (i < 0)
-		return (-i);
-	return (i);
-}
-
-t_point new_point(double x, double y)
-{
-	t_point out;
-	out.x = x;
-	out.y = y;
-	return (out);
-}
-
 void	draw_pixel(t_data *data, t_point p0, int color)
 {
 	char	*dst;
+	int		x;
+	int		y;
 
-	if (p0.x < 0 || p0.y < 0 || p0.x >= 1000 || p0.y >= 800)
+	if (p0.x < 0 || p0.y < 0)
 		return ;
-	dst = data->addr + (int) (p0.y * data->line_length
-			+ p0.x * (data->bits_per_pixel / 8));
+	x = p0.x;
+	y = p0.y;
+	if (x>= WIDTH || y>=HEIGHT)
+		return ;
+	dst = data->addr + (int) (y * data->line_length
+			+ x * (data->bits_per_pixel / 8));
 	*(unsigned int *) dst = color;
 }
 
+/**
+ * @brief 
+ * 
+ * @param start 
+ * @param end 
+ * @param delta 
+ * @param sign 
+ */
 static void	param_setup(t_point *start, t_point *end,
 	t_point *delta, t_point *sign)
 {
+	*start = new_point((int)start->x, (int)start->y);
+	*end = new_point((int)end->x, (int)end->y);
+
 	delta->x = absv(end->x - start->x);
 	delta->y = absv(end->y - start->y);
 	sign->x = -1;

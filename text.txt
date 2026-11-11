@@ -1,0 +1,12 @@
+tous les calculs sont en double et on recaste les valeurs en int pour le render
+
+entre la keypress et l'attribution de la nouvelle
+position au player on cheque les collisions
+
+STRUCT GAMESTATE qui possède map et player etc... t_data contien gamestate
+
+
+09.11
+pouvoir prendre un char **map[] et afficher des murs et partitioner l'écran correctement
+adapter t_data avec t_key
+key_press et release

@@ -3,7 +3,6 @@
 /*
 	TEMPORARY MAIN USED TO TEST 
 */
-
 int	close_window(t_data *d)
 {
 	mlx_destroy_image(d->mlx, d->img);
@@ -15,51 +14,73 @@ int	close_window(t_data *d)
 }
 
 /*
-static int	render(t_data *d, t_player *player)
+	MLX ne fonctionne pas comme ca, tout se fait dans une loop
+	mlx_loop_hook qui a sa propre boucle 
+
+int	game(t_data *data)
 {
-	memset(d->addr, 0, HEIGHT * d->line_length);	//fond noir 
-	put_pixel(d, player->position.x, player->position.y, 0xFFFFFF);
-	mlx_put_image_to_window(d->mlx, d->win, d->img, 0, 0);
+	ft_bzero(data->addr, HEIGHT * data->line_length); // on reset sinon on garde les ancienne frame affiché
+	draw_circle(data, data->player->position, 6, 0xFFFFFF);
+	draw_line(data, data->player->position, data->player->direction);
+	draw_circle(data, data->player->direction, 3, 0xFF0000);
+	recalulate_dir(data->player);
+
+	mlx_put_image_to_window(data->mlx, data->win, data->data, 0, 0);
 	return (0);
 }
 */
 
-/*
-	MLX ne fonctionne pas comme ca, tout se fait dans une loop
-	mlx_loop_hook qui a sa propre boucle 
-*/
-void	game(t_player player, t_data data)
+int	rendering_all(t_data *data)
 {
-	while (1)
-	{
-		draw_circle(&data, player.position, 5, 0xFFFFFF);
-	}
+	ft_bzero(data->addr, HEIGHT * data->line_length); // on reset sinon on garde les ancienne frame affiché
+	//render_world(data);
+	render_player(data);
+	//render_minimap(data);
+	mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
+
+}
+
+void	update_gamestate(t_data *data)
+{
+	update_player(data->player, t_key keys);
+	//update_door();
+	//update_item();
+}
+
+
+int game_loop(t_data *data)
+{
+	update_gamestate(data);
+	rendering_all(data);
+	return (0);
+}
+
+void	game_launch(t_data data)
+{
+	mlx_hook(data.win, 2, 1L << 0, key_press, &data);
+	//mlx_hook(data.win, 2, 1L << 0, key_release, &data);
+	mlx_hook(data.win, 17, 0, close_window, &data);
+
+	mlx_loop_hook(data.mlx, game_loop, &data);
+	mlx_loop(data.mlx);
 }
 
 int	main(void)
 {
-	t_data	img;
+	t_data	data;
 	t_player player;
 
-	player_init(player);
+	player_init(&player);
+	data.player = &player;
+
 	//mlx setpup
-	img.mlx = mlx_init();
-	img.win = mlx_new_window(img.mlx, WIDTH, HEIGHT, "CUBE");
-	img.img = mlx_new_image(img.mlx, WIDTH, HEIGHT);
-	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
+	data.mlx = mlx_init();
+	data.win = mlx_new_window(data.mlx, WIDTH, HEIGHT, "CUBE");
+	data.img = mlx_new_image(data.mlx, WIDTH, HEIGHT);
+	data.addr = mlx_get_data_addr(data.img, &data.bits_per_pixel, &data.line_length, &data.endian);
 
-	//render
-	game(player, img);
-	mlx_put_image_to_window(img.mlx, img.win, img.img, 0, 0);
-
-	//mlx ending
-	//setup_hooks(&img);
-	mlx_hook(img.win, 2, 1L << 0, key_press, &img);
-	mlx_hook(img.win, 17, 0, close_window, &img);
-	mlx_loop_hook(img.mlx, game, &player, &img);
-
-	mlx_loop(img.mlx);
-	
+	mlx_put_image_to_window(data.mlx, data.win, data.img, 0, 0);
+	game_launch(data);
 
 	return (0);
 }

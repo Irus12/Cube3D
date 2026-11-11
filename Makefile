@@ -4,7 +4,7 @@ CFLAGS	= -Wall -Wextra -Werror
 
 # ==================== SOURCES ====================
 
-SRCS		= $(wildcard src/*.c) $(wildcard src/rendering/*.c) main.c
+SRCS		= $(wildcard src/*.c) $(wildcard src/rendering/*.c) $(wildcard src/player/*.c) main.c
 
 OBJ_DIR		= obj
 OBJS		= $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
