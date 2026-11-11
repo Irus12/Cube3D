@@ -6,7 +6,7 @@
 /*   By: romeo <romeo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/10 16:54:26 by romeo             #+#    #+#             */
-/*   Updated: 2026/11/11 16:02:53 by romeo            ###   ########.fr       */
+/*   Updated: 2026/11/11 17:17:39 by romeo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,14 @@ static int	load_texture(void *mlx, t_texture *tex)
 }
 
 // Charge les 4 textures NO, SO, WE, EA
-static int	load_textures(t_game *game)
+static int	load_textures(t_data *d)
 {
 	int	i;
 
 	i = -1;
 	while (++i < 4)
 	{
-		if (load_texture(game->data.mlx, &game->map.textures[i]))
+		if (load_texture(d->mlx, &d->game->map.textures[i]))
 			return (1);
 	}
 	return (0);
@@ -63,16 +63,16 @@ static int	create_image(t_data *d)
 }
 
 // Lance la MLX puis enchaîne textures, fenêtre et image
-int	init_mlx(t_game *game)
+int	init_mlx(t_data *data)
 {
-	game->data.mlx = mlx_init();
-	if (!game->data.mlx)
+	data->mlx = mlx_init();
+	if (!data->mlx)
 		return (print_error("mlx_init failed"));
-	if (load_textures(game))
+	if (load_textures(data))
 		return (1);
-	if (create_window(&game->data))
+	if (create_window(data))
 		return (1);
-	if (create_image(&game->data))
+	if (create_image(data))
 		return (1);
 	return (0);
 }

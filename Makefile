@@ -23,7 +23,7 @@ PARSING		= src/parsing/check_input.c \
 			  src/libx/init_mlx.c \
 			  src/libx/mock_start_game.c
 
-SRCS		= src/main.c $(PARSING)
+SRCS		= src/parsing_main.c $(PARSING)
 OBJ_DIR		= obj
 OBJS		= $(SRCS:%.c=$(OBJ_DIR)/%.o)
 

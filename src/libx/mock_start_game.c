@@ -10,7 +10,7 @@ static void	put_pixel(t_data *d, int x, int y, int color)
 }
 
 // Remplit la moitié haute avec C (plafond) et la moitié basse avec F (sol)
-static void	draw_background(t_game *game)
+static void	draw_background(t_data *d)
 {
 	int	*c;
 	int	color;
@@ -21,47 +21,45 @@ static void	draw_background(t_game *game)
 	while (++y < HEIGHT)
 	{
 		if (y < HEIGHT / 2)
-			c = game->map.colors.sky;
+			c = d->game->map.colors.sky;
 		else
-			c = game->map.colors.floor;
+			c = d->game->map.colors.floor;
 		color = (c[0] << 16) | (c[1] << 8) | c[2];
 		x = -1;
 		while (++x < WIDTH)
-			put_pixel(&game->data, x, y, color);
+			put_pixel(d, x, y, color);
 	}
 }
 
 // Libère tout et quitte proprement (croix rouge ou ESC)
-static int	close_game(t_game *game)
+static int	mock_close(t_data *d)
 {
-	free_all(game);
+	free_all(d);
 	exit(EXIT_SUCCESS);
 	return (0);
 }
 
 // Gestion des touches : seulement ESC pour le mock
-static int	key_press(int keycode, t_game *game)
+static int	mock_key(int keycode, t_data *d)
 {
 	if (keycode == KEY_ESC)
-		close_game(game);
+		mock_close(d);
 	return (0);
 }
 
 // Mock : affiche fond + textures, branche ESC et la croix, lance la boucle
-int	start_game(t_game *game)
+int	start_game(t_data *d)
 {
-	t_data	*d;
-	int		i;
+	int	i;
 
-	d = &game->data;
-	draw_background(game);
+	draw_background(d);
 	mlx_put_image_to_window(d->mlx, d->win, d->img, 0, 0);
 	i = -1;
 	while (++i < 4)
 		mlx_put_image_to_window(d->mlx, d->win,
-			game->map.textures[i].img, 10 + i * 74, 10);
-	mlx_hook(d->win, 2, 1L << 0, key_press, game);
-	mlx_hook(d->win, 17, 0, close_game, game);
+			d->game->map.textures[i].img, 10 + i * 74, 10);
+	mlx_hook(d->win, 2, 1L << 0, mock_key, d);
+	mlx_hook(d->win, 17, 0, mock_close, d);
 	mlx_loop(d->mlx);
 	return (0);
 }

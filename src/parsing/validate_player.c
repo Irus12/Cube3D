@@ -6,7 +6,7 @@
 /*   By: romeo <romeo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/05 19:14:31 by romeo             #+#    #+#             */
-/*   Updated: 2026/11/10 13:22:22 by romeo            ###   ########.fr       */
+/*   Updated: 2026/11/11 17:20:40 by romeo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ static int	add_player(t_game *game, int y, int x)
 	t_player	*p;
 
 	p = &game->player;
-	if (p->direction)
+	if (p->spawn)
 		return (print_error("Multiple players"));
-	p->direction = game->map.map[y][x];
+	p->spawn = game->map.map[y][x];
 	p->position.x = x + 0.5;
 	p->position.y = y + 0.5;
 	game->map.map[y][x] = '0';
@@ -50,7 +50,7 @@ int	check_chars(t_game *game)
 				return (print_error("Invalid character in map"));
 		}
 	}
-	if (!game->player.direction)
+	if (!game->player.spawn)
 		return (print_error("No player in map"));
 	return (0);
 }
