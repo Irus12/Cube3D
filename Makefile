@@ -19,7 +19,9 @@ PARSING		= src/parsing/check_input.c \
 			  src/parsing/read_file.c \
 			  src/parsing/utils_parsing.c \
 			  src/parsing/validate_map.c \
-			  src/parsing/validate_player.c
+			  src/parsing/validate_player.c \
+			  src/libx/init_mlx.c \
+			  src/libx/mock_start_game.c
 
 SRCS		= src/main.c $(PARSING)
 OBJ_DIR		= obj

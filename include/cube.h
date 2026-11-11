@@ -6,7 +6,7 @@
 /*   By: romeo <romeo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/21 16:22:06 by nschilli          #+#    #+#             */
-/*   Updated: 2026/11/10 14:02:27 by romeo            ###   ########.fr       */
+/*   Updated: 2026/11/11 16:51:51 by romeo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,10 +82,22 @@ la texture ingame s'agrandit/rétrécit comparé à la "vrai" image.
 c’est une règle de trois pour le choix (en coordonée) du pixel qu'on séléctionne dans la vrai image 
 et qu'on décide d'afficher
 */
-typedef struct s_texture ///a completer
+// typedef struct s_texture ///a completer
+// {
+// 	char	*path;
+
+// }	t_texture;
+
+typedef struct s_texture
 {
 	char	*path;
-
+	void	*img;
+	char	*addr;
+	int		width;
+	int		height;
+	int		bpp;
+	int		line_len;
+	int		endian;
 }	t_texture;
 
 /*
@@ -125,21 +137,11 @@ typedef struct s_game
 
 //Parsing
 
+int		print_error(char *msg);
+
 int		check_inputs(int argc, char **argv);
 
 void	init_game(t_game *game);
-
-// int		parse_map(char *path, t_map *map, t_player *player);
-// int		count_lines(char *path);
-// int		read_map(char *path, t_map *map);
-// void	free_map(t_map *map);
-// int		validate_map(t_map *map, t_player *player);
-// int		read_map(char *path, t_map *map);
-// int		count_lines(char *path);
-// void	free_map(t_map *map);
-
-int		print_error(char *msg);
-void	free_tab(char **tab);
 
 int		is_empty_line(char *line);
 char	**read_file(char *path);
@@ -149,6 +151,11 @@ int		parse_map(char *path, t_game *game);
 int		check_chars(t_game *game);
 int		validate_map(t_game *game);
 
+int		init_mlx(t_game *game);
+
+int		start_game(t_game *game);
+
+void	free_tab(char **tab);
 void	free_map(t_map *map);
 void	free_all(t_game *game);
 void	error_exit(t_game *game, char *msg);
