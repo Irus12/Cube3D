@@ -8,5 +8,11 @@ STRUCT GAMESTATE qui possède map et player etc... t_data contien gamestate
 
 09.11
 pouvoir prendre un char **map[] et afficher des murs et partitioner l'écran correctement
+
 adapter t_data avec t_key
 key_press et release
+
+12.11
+merge
+lien parsing et gameplay
+collisions

@@ -6,7 +6,7 @@
 /*   By: nschilli <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/21 16:22:06 by nschilli          #+#    #+#             */
-/*   Updated: 2026/11/11 16:25:37 by nschilli         ###   ########.fr       */
+/*   Updated: 2026/11/11 17:07:54 by nschilli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@
 #define KEY_D	100
 #define KEY_L	65361
 #define KEY_R	65363
+
+#define TILE_TO_MAP_FACTOR 0.01
 
 # define NORTH	0
 # define SOUTH	1
