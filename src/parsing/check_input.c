@@ -6,23 +6,13 @@
 /*   By: romeo <romeo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/28 15:50:42 by romeo             #+#    #+#             */
-/*   Updated: 2026/10/30 16:43:10 by romeo            ###   ########.fr       */
+/*   Updated: 2026/11/11 16:50:00 by romeo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-
 
 #include "../../include/cube.h"
 #include <fcntl.h>
 #include <stdio.h>
-
-// static int	print_error(char *msg)
-// {
-// 	ft_putstr_fd("Error\n", 2);
-// 	ft_putstr_fd(msg, 2);
-// 	ft_putstr_fd("\n", 2);
-// 	return (1);
-// }
 
 int	check_inputs(int argc, char **argv)
 {

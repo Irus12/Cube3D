@@ -6,12 +6,13 @@
 /*   By: romeo <romeo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/30 02:14:44 by romeo             #+#    #+#             */
-/*   Updated: 2026/10/30 02:16:16 by romeo            ###   ########.fr       */
+/*   Updated: 2026/11/05 18:37:27 by romeo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cube.h"
 
+//First open to only to count the number of lines for malloc
 static int	count_lines(char *path)
 {
 	int		fd;
@@ -33,6 +34,7 @@ static int	count_lines(char *path)
 	return (count);
 }
 
+//remplacing the \n with \0 at the end of each line
 static void	strip_newline(char *line)
 {
 	size_t	len;
@@ -44,7 +46,8 @@ static void	strip_newline(char *line)
 
 static void	fill_lines(int fd, char **lines, int count)
 {
-	int	i;
+	int		i;
+	char	*rest;
 
 	i = 0;
 	while (i < count)
@@ -53,6 +56,12 @@ static void	fill_lines(int fd, char **lines, int count)
 		if (!lines[i])
 			break ;
 		strip_newline(lines[i++]);
+	}
+	rest = get_next_line(fd);
+	while (rest)
+	{
+		free(rest);
+		rest = get_next_line(fd);
 	}
 }
 
